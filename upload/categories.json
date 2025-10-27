@@ -1,0 +1,31 @@
+[
+  {
+    "name": "Neopreny",
+    "url": "https://www.blue70.cz/products.html?cat=wetsuits",
+    "imageURL": "p/helix-001.jpg"
+  },
+
+  {
+    "name": "Plavecké kombinézy",
+    "url": "https://www.blue70.cz/products.html?cat=swimskins",
+    "imageURL": "p/pz4tx-001.jpg"
+  },
+
+  {
+    "name": "Plavecké brýle",
+    "url": "https://www.blue70.cz/products.html?cat=goggles",
+    "imageURL": "p/hydravision-001.jpg"
+  },
+
+  {
+    "name": "Závodní plavky",
+    "url": "https://www.blue70.cz/products?cat=racesswimwear",
+    "imageURL": "p/nero-1.jpg"
+  },
+
+  {
+    "name": "Doplňky",
+      "url": "https://www.blue70.cz/products?cat=ameninities",
+    "imageURL": "p/jak-na-triatlon-a-jin-vytrvalostn-sporty-001.jpg"
+  }
+]

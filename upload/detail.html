@@ -1,0 +1,254 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Boldonse&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <title>BLUE70 Detail </title>
+
+      <style>
+         * {
+         margin: 0;
+         padding:0;
+         box-sizing: border-box;
+         }
+      </style>
+
+      <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-313YVHY7Y2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-313YVHY7Y2');
+</script>
+
+
+</head>
+<body>
+  <script type="module" src="dist/lib.bundle.js">
+  </script>
+
+     <script type="module" src="components/nav.js"></script>
+  <script type="module" src="components/footer.js"></script>
+  <div id="mount"></div>
+
+  <script type="module">
+ // ✅ ProductDetail stays the same
+
+
+const urlParams = new URLSearchParams(window.location.search);
+const id = urlParams.get("id"); // e.g. detail.html?id=helix
+
+//alert(id);
+// http://localhost:2000/detail?id=helix works
+
+
+  import {Blue70Button} from "./components/blue-70-button.js";
+
+  import {Blue70Title} from "./components/blue-70-title.js";
+
+    class ProductDetail extends Base {
+      constructor(obj) {
+        super();
+        this.obj = obj;
+        console.log("OBJI");
+        console.log(this.obj);
+        console.log(this.obj.details);
+      }
+
+      render() {
+        return new FlexRow().set({
+          pad: [{ a: "1rem" }],
+          gap: "1rem",
+          align: "flex-start",
+          wrap: true,
+          width: "100%",
+          //maxWidth: "800px",
+          justify: "space-around"
+        })
+        .items([
+          new Image().set({
+            type: "img",
+            width: "50%",
+            url: this.obj.images[0],
+            vtn: this.obj.name
+          }),
+          new Wrapper().set({
+            gap: "1rem",
+            direction: "column",
+            align: "flex-start",
+            column: true,
+            width: "600px"
+          }).add([
+            new Text(this.obj.name.toUpperCase()).set({
+              font: "Boldonse",
+              weight: "bold",
+              exact: "2.8rem"
+            }),
+             new Text(this.obj.price).set({
+              font: "Montserrat",
+              exact: "1.6rem",
+              color: "#3498Db",
+              weight: "bold",
+              pad: [{ tb: "1rem" }],
+              hide: this.obj.price === "n/a" // 121740
+            }), // http://localhost:2000/detail?id=helix
+
+             new Link("tricamp.cz").set({
+              font: "Montserrat",
+              exact: "1.6rem",
+              color: "#3498Db",
+              weight: "bold",
+              url: "https://tricamp.cz",
+              pad: [{ tb: "1rem" }],
+              hide: this.obj.id !== "triatlon-camps" // 121740
+            }),
+
+            new Wrapper()
+            .set({})
+            .add(this.obj.description.map(el => {
+              return new Text(el).set({
+              font: "Montserrat",
+              exact: "1.2rem",
+              pad: [{ tb: "1rem" }]
+            })
+          }
+          )),
+
+         new Wrapper()
+          .set({pad: [{l: "1rem"}]})
+          .add([
+
+new UList().setItems(this.obj.details.map(el =>
+              new Text(el, { type: "li" }).set({
+                font: "Montserrat",
+                exact: "1rem",
+                pad: [{ tb: "0.5rem" }],
+                color: "gray"
+              })
+            )),
+
+          ]),
+            
+
+
+            new FlexRow()
+            .set({
+                pad: [{ tb: "0.5rem" }],
+            })
+            .items([
+
+ new Text("Objednávky po konzultaci:")
+            .set({
+               font: "Montserrat",
+                exact: "1rem",
+                pad: [{ tbr: "0.5rem" }],
+                color: "#3498db"
+            }),
+
+            new Link("petr@vabrousek.cz")
+            .set({
+              url: "mailto:petr@vabrousek.cz",
+               font: "Montserrat",
+               bold: true,
+                exact: "1rem",
+                pad: [{ tb: "0.5rem" }],
+                color: "#3498db"
+            })
+           ]),
+
+
+           
+
+          
+           
+           
+
+              new Blue70Button({
+                text: "Tabulky velikostí",
+                url: `tables.html`,
+                hide: !["helix", "helix-thermal", "alliance", "liftshorts", "reaction-thermal",  "reaction", "torpedo", "glide", "sprint", "liftshorts", "PZ4TX", "PZ4TX-plus"].includes(this.obj.id)
+              }).render(),
+
+                new Blue70Button({
+                text: "Thermal doplňky",
+                url: `https://www.blue70.cz/products.html?cat=amenities`,
+                hide: !["reaction-thermal", "helix-thermal",  "reaction", "reaction-thermal", "torpedo", "glide", "sprint", "alliance", "helix"].includes(this.obj.id)
+              }).render(),
+// mail, preferences, Default E-mail renderer => Mail
+
+
+          ])
+        ]);
+      }
+    }
+
+    fetch("./products.json")
+  .then(res => res.json())
+  .then(data => {
+    console.log("JSON");
+    console.log(data);
+   // Flatten all products from all categories
+    const products = data.categories.flatMap(cat => cat.products);
+
+    // Find product by id
+    const product = products.find(p => p.id === id);
+
+    if (product) {
+      document.title = `BLUE70 ${product.name}`;
+      new ProductDetail(product).render().render("#mount");
+    } else {
+      new Text("Product not found").render("#mount");
+    }
+
+
+    let images = product.images.map(url => new Image().set({
+      url: url,
+      isFull: "uncover", // true or uncover
+      width: "400px",
+      height: "400px"
+    })
+  );
+
+    console.log("ORAA");
+    console.log(images);
+
+   
+
+new Slider(images, 
+null, 
+{ 
+     tintColor: "#3498db",
+     inactiveColor: "#ccc",
+     hideSelector: true
+ }).render("#mount"); 
+
+    // ✅ Footer after product load
+    import("./components/footer.js").then(({ FooterEl }) => {
+      new FooterEl().render().render("#mount");
+    });
+  })
+  .catch(err => {
+    console.error("Failed to load products.json", err);
+    new Text("Error loading product data").render("#mount");
+  });
+
+
+
+
+
+  // 202537 works in browser
+
+
+
+  
+  </script>
+
+</body>
+</html>
